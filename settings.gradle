@@ -1,0 +1,3 @@
+include ':loglibrary'
+include ':sample'
+rootProject.name = "RzLog"
