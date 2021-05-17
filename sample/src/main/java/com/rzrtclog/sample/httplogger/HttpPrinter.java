@@ -1,4 +1,4 @@
-package com.rzrtc.log.httplogger;
+package com.rzrtclog.sample.httplogger;
 
 import android.text.TextUtils;
 import android.util.Log;

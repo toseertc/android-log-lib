@@ -31,12 +31,12 @@ android {
         jvmTarget = '1.8'
     }
     sourceSets {
-        debug{
-            java {
-                srcDirs "src/main"
-                srcDirs "src/httplogger"
-            }
-        }
+//        debug{
+//            java {
+//                srcDirs "src/main"
+//                srcDirs "src/httplogger"
+//            }
+//        }
 
         main {
             jniLibs.srcDirs = ['libs']

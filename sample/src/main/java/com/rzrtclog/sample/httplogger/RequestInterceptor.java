@@ -1,4 +1,4 @@
-/*
+package com.rzrtclog.sample.httplogger;/*
  * Copyright 2017 JessYan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rzrtc.log.httplogger;
+
 
 import com.rzrtc.log.DuBIns;
 import com.rzrtc.log.utils.CharacterHandler;
 import com.rzrtc.log.utils.HttpZipHelper;
 import com.rzrtc.log.utils.UrlEncoderUtils;
+import com.rzrtclog.sample.httplogger.HttpPrinter;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -35,7 +36,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
-
 
 /**
  * ================================================

@@ -30,19 +30,20 @@ class DuBLogImp(private val duBLogConfig: DuBLogConfig) : DuBLogInterface {
     private val contentCombineChar = " : "
 
 
-   init {
-       initLogImp(duBLogConfig)
-   }
+    init {
+        initLogImp(duBLogConfig)
+    }
 
     private fun initLogImp(duBLogConfig: DuBLogConfig) {
         writeLogTree = WriteLogTree(duBLogConfig)
         timber = Timber()
         if (duBLogConfig.debugMode) {
             val formatStrategy: FormatStrategy = PrettyFormatStrategy.newBuilder()
-                    .methodCount(0) // (Optional) How many method line to show. Default 2
-                    .methodOffset(7) // (Optional) Hides internal method calls up to offset. Default 5
-                    .tag("[${duBLogConfig.namePreFix}]") // (Optional) Global tag for every log. Default PRETTY_LOGGER
-                    .build()
+                .methodCount(0) // (Optional) How many method line to show. Default 2
+                .methodOffset(7) // (Optional) Hides internal method calls up to offset. Default 5
+                .showThreadInfo(false)
+                .tag("[${duBLogConfig.namePreFix}]") // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .build()
 
             val logger = Logger()
             logger.addLogAdapter(object : AndroidLogAdapter(formatStrategy) {
@@ -174,7 +175,7 @@ class DuBLogImp(private val duBLogConfig: DuBLogConfig) : DuBLogInterface {
                 } ?: emptyList()
             }
 
-            if (flatMap.isNotEmpty()){
+            if (flatMap.isNotEmpty()) {
                 ZipUtils.zipFiles(flatMap, zipFile, "${duBLogConfig.namePreFix} - $today logFiles")
                 upLoadStrategy.upLoadLogZipFiles(zipFile)
             }
@@ -189,7 +190,7 @@ class DuBLogImp(private val duBLogConfig: DuBLogConfig) : DuBLogInterface {
         writeLogTree?.appenderClose()
     }
 
-    override fun appenderFlush(isSync :Boolean) {
+    override fun appenderFlush(isSync: Boolean) {
         writeLogTree?.appenderFlush(isSync)
     }
 
