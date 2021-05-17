@@ -41,10 +41,7 @@ import okio.BufferedSource;
  * ================================================
  * 解析框架中的网络请求和响应结果,并以日志形式输出,调试神器
  * 可使用 { printHttpLogLevel(Level)} 控制或关闭日志
- * <p>
- * Created by JessYan on 7/1/2016.
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+        编译通过需要在项目中添加依赖 api "com.squareup.okhttp3:logging-interceptor:4.9.0"
  * ================================================
  */
 
