@@ -6,9 +6,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.rzrtc.log.BuildConfig;
 import com.rzrtc.log.DuBIns;
 import com.rzrtc.log.utils.CharacterHandler;
+import com.rzrtclog.sample.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
