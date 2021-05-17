@@ -1,45 +1,50 @@
 package com.rzrtc.log.impl
 
-import android.util.Log
-import com.rzrtc.log.BuildConfig
 import com.rzrtc.log.DuBLogConfig
-import com.rzrtc.log.Timber
-import com.rzrtc.log.WriteLogTree
 import com.rzrtc.log.interfaces.DuBLogInterface
+import com.rzrtc.log.interfaces.UpLoadStrategy
 import com.rzrtc.log.logger.AndroidLogAdapter
 import com.rzrtc.log.logger.FormatStrategy
 import com.rzrtc.log.logger.Logger
 import com.rzrtc.log.logger.PrettyFormatStrategy
+import com.rzrtc.log.utils.DateUtils
 import com.rzrtc.log.utils.ZipUtils
-
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.CoroutineContext
 
-class DuBLogImp() : DuBLogInterface {
+class DuBLogImp(private val duBLogConfig: DuBLogConfig) : DuBLogInterface {
 
-    lateinit var duBLogConfig: DuBLogConfig
     var writeLogTree: WriteLogTree? = null
 
-    private lateinit var timber: Timber;
+    private lateinit var timber: Timber
+    private val zipFileEndName = ".zip"
+    private val innerClassName = '$'
+    private val logFileEndName = ".xlog"
+    private val classFlitName = "\\."
+    private val javaName = ".java"
+    private val leftTag = "【"
+    private val rightTag = "】"
+    private val contentCombineChar = " : "
 
-    constructor(duBLogConfig: DuBLogConfig) : this() {
-        this.duBLogConfig = duBLogConfig
-        init(duBLogConfig)
-    }
 
-    fun init(duBLogConfig: DuBLogConfig) { //todo 多次调用
+   init {
+       initLogImp(duBLogConfig)
+   }
+
+    private fun initLogImp(duBLogConfig: DuBLogConfig) {
         writeLogTree = WriteLogTree(duBLogConfig)
         timber = Timber()
-        if (BuildConfig.DEBUG) {
+        if (duBLogConfig.debugMode) {
             val formatStrategy: FormatStrategy = PrettyFormatStrategy.newBuilder()
-                    .showThreadInfo(duBLogConfig.showThreadInfoInDebugMode) // (Optional) Whether to show thread info or not. Default true
                     .methodCount(0) // (Optional) How many method line to show. Default 2
                     .methodOffset(7) // (Optional) Hides internal method calls up to offset. Default 5
                     .tag("[${duBLogConfig.namePreFix}]") // (Optional) Global tag for every log. Default PRETTY_LOGGER
                     .build()
 
-            var logger = Logger()
+            val logger = Logger()
             logger.addLogAdapter(object : AndroidLogAdapter(formatStrategy) {
                 override fun isLoggable(priority: Int, tag: String?): Boolean {
                     return super.isLoggable(priority, tag)
@@ -57,57 +62,56 @@ class DuBLogImp() : DuBLogInterface {
     }
 
     override fun v(content: Any) {
-        timber.v("【${getInnerTag()}】 : $content")
-//        LogUtils.d()
+        timber.v("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun v(tag: String, content: Any) {
-        timber.tag(tag).v("【${getInnerTag()}】 : $content")
+        timber.tag(tag).v("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun d(content: Any) {
-        timber.d("【${getInnerTag()}】 : $content")
+        timber.d("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun d(tag: String, content: Any) {
-        timber.tag(tag).d("【${getInnerTag()}】 : $content")
+        timber.tag(tag).d("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun i(content: Any) {
-        timber.i("【${getInnerTag()}】 : $content")
+        timber.i("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun i(tag: String, content: Any) {
-        timber.tag(tag).i("【${getInnerTag()}】 : $content")
+        timber.tag(tag).i("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun w(content: Any) {
-        timber.w("【${getInnerTag()}】 : $content")
+        timber.w("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun w(tag: String, content: Any) {
-        timber.tag(tag).w("【${getInnerTag()}】 : $content")
+        timber.tag(tag).w("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun e(content: Any) {
-        timber.e("【${getInnerTag()}】 : $content")
+        timber.e("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun e(tag: String, content: Any) {
-        timber.tag(tag).e("【${getInnerTag()}】 : $content")
+        timber.tag(tag).e("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
 
     }
 
     override fun a(content: Any) {
-        timber.wtf("【${getInnerTag()}】 : $content")
+        timber.wtf("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
     }
 
     override fun a(tag: String, content: Any) {
-        timber.tag(tag).wtf("【${getInnerTag()}】 : $content")
+        timber.tag(tag).wtf("$leftTag${getInnerTag()}$rightTag$contentCombineChar$content")
 
     }
 
-    private fun getInnerTag(): String? {
+    private fun getInnerTag(): String {
         // DO NOT switch this to Thread.getCurrentThread().getStackTrace(). The test will pass
         // because Robolectric runs them on the JVM but on Android the elements are different.
         val stackTrace = Throwable().stackTrace
@@ -115,51 +119,66 @@ class DuBLogImp() : DuBLogInterface {
         val targetElement = stackTrace[stackIndex]
         val fileName = getTagFileName(targetElement)
 
-        val index = fileName?.indexOf('.') // Use proguard may not find '.'.
-        var s = if (index == -1) fileName else fileName?.substring(0, index ?: 0)
-        return s
+        val index = fileName.indexOf('.') // Use proguard may not find '.'.
+        return if (index == -1) fileName else fileName.substring(0, index ?: 0)
     }
 
-    private fun getTagFileName(targetElement: StackTraceElement): String? {
+    private fun getTagFileName(targetElement: StackTraceElement): String {
         val fileName = targetElement.fileName
         if (fileName != null) return fileName
         // If name of file is null, should add
         // "-keepattributes SourceFile,LineNumberTable" in proguard file.
         var className = targetElement.className
-        val classNameInfo = className.split("\\.".toRegex()).toTypedArray()
-        if (classNameInfo.size > 0) {
+        val classNameInfo = className.split(classFlitName.toRegex()).toTypedArray()
+        if (classNameInfo.isNotEmpty()) {
             className = classNameInfo[classNameInfo.size - 1]
         }
-        val index = className.indexOf('$')
+        val index = className.indexOf(innerClassName)
         if (index != -1) {
             className = className.substring(0, index)
         }
-        return "$className.java"
+        return "$className$javaName"
     }
 
 
-    override fun uploadLog() {
+    override fun uploadLog(logDays: Int, upLoadStrategy: UpLoadStrategy) {
 
         //上传今天日志
         //1 获取日志路径
-        val xLogPath = getLogPath()
+        appenderFlush(true)  // 同步刷新缓存区
+        val xLogPath = getLogPath() ?: return
+        var logDaysTemp = logDays
         //2进行压缩
-        Log.e("lzj", "xLogPath!! $xLogPath")
-
+        e("lzj", "xLogPath!! $xLogPath")
         //获取今天日期
-        var format = SimpleDateFormat("YYYYMMdd").format(Date())
-
-        var lodDir = File(xLogPath)
-        if (lodDir.exists() && lodDir.isDirectory) {
-            var filter = lodDir.listFiles().filter {
-                it.name.contains(format) && it.name.endsWith(".xlog")
-            }
-            //todo zipfile加上前缀
-            ZipUtils.zipFiles(filter, File("$xLogPath/${duBLogConfig.namePreFix}-$format.zip"), "${duBLogConfig.namePreFix} - $format 日志")
+        val today = SimpleDateFormat("yyyyMMdd").format(Date())
+        //定义日期集合
+        val logDaysName = mutableListOf<String>()
+        logDaysName.add(today)
+        var preday = today
+        while (logDaysTemp - 1 > 0) {
+            val nextPreDate = DateUtils.getPreDate(preday)
+            logDaysName.add(nextPreDate)
+            preday = nextPreDate
+            logDaysTemp -= 1
         }
 
-        //3 todo 进行上传 --上传成功删除zip文件
+        //定义zipfile
+        val zipFile = File("$xLogPath/${duBLogConfig.namePreFix}-$today$zipFileEndName")
 
+        val logDir = File(xLogPath)
+        if (logDir.exists() && logDir.isDirectory) {
+            val flatMap = logDaysName.flatMap {
+                logDir.listFiles()?.filter { file ->
+                    file.name.contains(it) && file.name.endsWith(logFileEndName)
+                } ?: emptyList()
+            }
+
+            if (flatMap.isNotEmpty()){
+                ZipUtils.zipFiles(flatMap, zipFile, "${duBLogConfig.namePreFix} - $today logFiles")
+                upLoadStrategy.upLoadLogZipFiles(zipFile)
+            }
+        }
     }
 
     override fun getLogPath(): String? {
@@ -170,8 +189,8 @@ class DuBLogImp() : DuBLogInterface {
         writeLogTree?.appenderClose()
     }
 
-    override fun appenderFlush() {
-        writeLogTree?.appenderFlush()
+    override fun appenderFlush(isSync :Boolean) {
+        writeLogTree?.appenderFlush(isSync)
     }
 
 

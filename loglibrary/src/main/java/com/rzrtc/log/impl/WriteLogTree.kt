@@ -1,5 +1,6 @@
-package com.rzrtc.log
+package com.rzrtc.log.impl
 
+import com.rzrtc.log.DuBLogConfig
 import com.tencent.mars.xlog.XLogWrapper
 import com.tencent.mars.xlog.Xlog
 
@@ -10,7 +11,7 @@ class WriteLogTree(duBLogConfig: DuBLogConfig) : Timber.DebugTree() {
             System.loadLibrary("c++_shared");
             System.loadLibrary("marsxlog");
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
         initXLog(duBLogConfig)
     }
@@ -30,7 +31,7 @@ class WriteLogTree(duBLogConfig: DuBLogConfig) : Timber.DebugTree() {
             XLogWrapper.setLogImp(xlog)
         }
         XLogWrapper.setConsoleLogOpen(false)
-        XLogWrapper.openLogInstance(Xlog.LEVEL_INFO, Xlog.AppednerModeAsync, duBlogConfig.cachePath, duBlogConfig.logPath, duBlogConfig.namePreFix, duBlogConfig.cacheDays);
+        XLogWrapper.openLogInstance(Xlog.LEVEL_INFO, Xlog.AppednerModeAsync, duBlogConfig.getCachePath(), duBlogConfig.logPath, duBlogConfig.namePreFix, duBlogConfig.getCacheDays());
         XLogWrapper.getLogInstance(duBlogConfig.namePreFix).setMaxFileSize(duBlogConfig.maxFileSize)
     }
 
@@ -38,13 +39,13 @@ class WriteLogTree(duBLogConfig: DuBLogConfig) : Timber.DebugTree() {
         XLogWrapper.appenderClose()
     }
 
-    fun appenderFlush() {
-        XLogWrapper.appenderFlush()
+    fun appenderFlush(isSync :Boolean) {
+        XLogWrapper.appenderFlush(isSync)
     }
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         XLogWrapper.getLogInstance(logInstancePreFix).log(priority, tag, message, t)
-        XLogWrapper.getLogInstance(logInstancePreFix).appenderFlush()
+//        XLogWrapper.getLogInstance(logInstancePreFix).appenderFlush()
     }
 
 }

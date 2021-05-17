@@ -1,4 +1,4 @@
-package com.rzrtc.log;
+package com.rzrtc.log.impl;
 
 import android.os.Build;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.rzrtc.log
+package com.rzrtc.log.impl
 
 import android.os.Build
 import android.util.Log
@@ -12,107 +12,107 @@ class TimberKotlin {
 
     /** Log a verbose message with optional format args.  */
     fun v(@NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.v(message, *args)
+        treeOfSouls.v(message, *args)
     }
 
     /** Log a verbose exception and a message with optional format args.  */
     fun v(t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.v(t, message, *args)
+        treeOfSouls.v(t, message, *args)
     }
 
     /** Log a verbose exception.  */
     fun v(t: Throwable?) {
-        TREE_OF_SOULS.v(t)
+        treeOfSouls.v(t)
     }
 
     /** Log a debug message with optional format args.  */
     fun d(@NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.d(message, *args)
+        treeOfSouls.d(message, *args)
     }
 
     /** Log a debug exception and a message with optional format args.  */
     fun d(t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.d(t, message, *args)
+        treeOfSouls.d(t, message, *args)
     }
 
     /** Log a debug exception.  */
     fun d(t: Throwable?) {
-        TREE_OF_SOULS.d(t)
+        treeOfSouls.d(t)
     }
 
     /** Log an info message with optional format args.  */
     fun i(@NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.i(message, *args)
+        treeOfSouls.i(message, *args)
     }
 
     /** Log an info exception and a message with optional format args.  */
     fun i(t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.i(t, message, *args)
+        treeOfSouls.i(t, message, *args)
     }
 
     /** Log an info exception.  */
     fun i(t: Throwable?) {
-        TREE_OF_SOULS.i(t)
+        treeOfSouls.i(t)
     }
 
     /** Log a warning message with optional format args.  */
     fun w(@NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.w(message, *args)
+        treeOfSouls.w(message, *args)
     }
 
     /** Log a warning exception and a message with optional format args.  */
     fun w(t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.w(t, message, *args)
+        treeOfSouls.w(t, message, *args)
     }
 
     /** Log a warning exception.  */
     fun w(t: Throwable?) {
-        TREE_OF_SOULS.w(t)
+        treeOfSouls.w(t)
     }
 
     /** Log an error message with optional format args.  */
     fun e(@NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.e(message, *args)
+        treeOfSouls.e(message, *args)
     }
 
     /** Log an error exception and a message with optional format args.  */
     fun e(t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.e(t, message, *args)
+        treeOfSouls.e(t, message, *args)
     }
 
     /** Log an error exception.  */
     fun e(t: Throwable?) {
-        TREE_OF_SOULS.e(t)
+        treeOfSouls.e(t)
     }
 
     /** Log an assert message with optional format args.  */
     fun wtf(@NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.wtf(message, *args)
+        treeOfSouls.wtf(message, *args)
     }
 
     /** Log an assert exception and a message with optional format args.  */
     fun wtf(t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.wtf(t, message, *args)
+        treeOfSouls.wtf(t, message, *args)
     }
 
     /** Log an assert exception.  */
     fun wtf(t: Throwable?) {
-        TREE_OF_SOULS.wtf(t)
+        treeOfSouls.wtf(t)
     }
 
     /** Log at `priority` a message with optional format args.  */
     fun log(priority: Int, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.log(priority, message, *args)
+        treeOfSouls.log(priority, message, *args)
     }
 
     /** Log at `priority` an exception and a message with optional format args.  */
     fun log(priority: Int, t: Throwable?, @NonNls message: String?, vararg args: Any?) {
-        TREE_OF_SOULS.log(priority, t, message, *args)
+        treeOfSouls.log(priority, t, message, *args)
     }
 
     /** Log at `priority` an exception.  */
     fun log(priority: Int, t: Throwable?) {
-        TREE_OF_SOULS.log(priority, t)
+        treeOfSouls.log(priority, t)
     }
 
     /**
@@ -120,7 +120,7 @@ class TimberKotlin {
      * instance rather than using static methods or to facilitate testing.
      */
     fun asTree(): Tree {
-        return TREE_OF_SOULS
+        return treeOfSouls
     }
 
     /** Set a one-time tag for use on the next logging call.  */
@@ -129,7 +129,7 @@ class TimberKotlin {
         for (tree in forest) {
             tree!!.explicitTag.set(tag)
         }
-        return TREE_OF_SOULS
+        return treeOfSouls
     }
 
     /** Add a new logging tree.  */
@@ -138,10 +138,10 @@ class TimberKotlin {
         if (tree == null) {
             throw NullPointerException("tree == null")
         }
-        require(!(tree === TREE_OF_SOULS)) { "Cannot plant Timber into itself." }
-        synchronized(FOREST) {
-            FOREST.add(tree)
-            forestAsArray = FOREST.toTypedArray()
+        require(!(tree === treeOfSouls)) { "Cannot plant Timber into itself." }
+        synchronized(forset) {
+            forset.add(tree)
+            forestAsArray = forset.toTypedArray()
         }
     }
 
@@ -155,49 +155,49 @@ class TimberKotlin {
             if (tree == null) {
                 throw NullPointerException("trees contains null")
             }
-            require(!(tree === TREE_OF_SOULS)) { "Cannot plant Timber into itself." }
+            require(!(tree === treeOfSouls)) { "Cannot plant Timber into itself." }
         }
-        synchronized(FOREST) {
-            Collections.addAll(FOREST, *trees)
-            forestAsArray = FOREST.toTypedArray()
+        synchronized(forset) {
+            Collections.addAll(forset, *trees)
+            forestAsArray = forset.toTypedArray()
         }
     }
 
     /** Remove a planted tree.  */
     fun uproot(tree: Tree) {
-        synchronized(FOREST) {
-            require(FOREST.remove(tree)) { "Cannot uproot tree which is not planted: $tree" }
-            forestAsArray = FOREST.toTypedArray()
+        synchronized(forset) {
+            require(forset.remove(tree)) { "Cannot uproot tree which is not planted: $tree" }
+            forestAsArray = forset.toTypedArray()
         }
     }
 
     /** Remove all planted trees.  */
     fun uprootAll() {
-        synchronized(FOREST) {
-            FOREST.clear()
-            forestAsArray = TREE_ARRAY_EMPTY
+        synchronized(forset) {
+            forset.clear()
+            forestAsArray = treeArrayEmpty
         }
     }
 
     /** Return a copy of all planted [trees][Tree].  */
     fun forest(): List<Tree?> {
-        synchronized(FOREST) { return Collections.unmodifiableList(ArrayList(FOREST)) }
+        synchronized(forset) { return Collections.unmodifiableList(ArrayList(forset)) }
     }
 
     fun treeCount(): Int {
-        synchronized(FOREST) { return FOREST.size }
+        synchronized(forset) { return forset.size }
     }
 
-    private val TREE_ARRAY_EMPTY = arrayOfNulls<Tree>(0)
+    private val treeArrayEmpty = arrayOfNulls<Tree>(0)
 
     // Both fields guarded by 'FOREST'.
-    private val FOREST: MutableList<Tree> = ArrayList()
+    private val forset: MutableList<Tree> = ArrayList()
 
     @Volatile
-    var forestAsArray = TREE_ARRAY_EMPTY
+    var forestAsArray = treeArrayEmpty
 
     /** A [Tree] that delegates to all planted trees in the [forest][.FOREST].  */
-    private val TREE_OF_SOULS: Tree = object : Tree() {
+    private val treeOfSouls: Tree = object : Tree() {
         override fun v(message: String?, vararg args: Any?) {
             val forest = forestAsArray
             for (tree in forest) {
@@ -363,6 +363,7 @@ class TimberKotlin {
                 }
                 return tag
             }
+        val isLoggable = true
 
         /** Log a verbose message with optional format args.  */
         open fun v(message: String?, vararg args: Any?) {
@@ -474,7 +475,7 @@ class TimberKotlin {
          */
         @Deprecated("use {@link #isLoggable(String, int)} instead.", ReplaceWith("true"))
         protected fun isLoggable(priority: Int): Boolean {
-            return true
+            return isLoggable
         }
 
         /** Return whether a message at `priority` or `tag` should be logged.  */
@@ -585,7 +586,7 @@ class TimberKotlin {
             val fileName = getFileName(targetElement)
 
             val index = fileName?.indexOf('.') // Use proguard may not find '.'.
-            var s = if (index == -1) fileName else fileName?.substring(0, index ?: 0)
+            val s = if (index == -1) fileName else fileName?.substring(0, index ?: 0)
             return s
         }
 
@@ -646,7 +647,7 @@ class TimberKotlin {
         companion object {
             private const val MAX_LOG_LENGTH = 4000
             private const val MAX_TAG_LENGTH = 23
-            private const val CALL_STACK_INDEX = 6
+//            private const val CALL_STACK_INDEX = 6
             private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")
         }
     }

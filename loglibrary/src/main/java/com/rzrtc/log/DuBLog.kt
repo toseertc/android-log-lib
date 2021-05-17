@@ -7,17 +7,4 @@ object DuBLog : DuBIns() {
         duBLogImp = DuBLogFactory.createLogInstance(duBLogConfig)
     }
 
-//    fun appenderFlush() {
-//        duBLogImp .appenderFlush()
-//    }
-
-//    fun appenderClose() {
-//        duBLogImp?.appenderClose()
-//    }
-
-//    fun uploadTodayLog() {
-//        duBLogImp?.uploadTwoDayLog()
-//    }
-
-
 }

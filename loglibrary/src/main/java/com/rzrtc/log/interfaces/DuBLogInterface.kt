@@ -25,11 +25,11 @@ interface DuBLogInterface {
 
     fun a(tag: String, content: Any)
 
-    fun uploadLog()
+    fun uploadLog(logDays: Int, upLoadStrategy: UpLoadStrategy)
 
     fun getLogPath(): String?
 
     fun appenderClose()
 
-    fun appenderFlush()
+    fun appenderFlush(isSync :Boolean)
 }

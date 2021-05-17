@@ -15,10 +15,10 @@
  */
 package com.rzrtc.log.httplogger;
 
-import com.rzrtc.log.utils.CharacterHandler;
 import com.rzrtc.log.DuBIns;
-import com.rzrtc.log.utils.UrlEncoderUtils;
+import com.rzrtc.log.utils.CharacterHandler;
 import com.rzrtc.log.utils.HttpZipHelper;
+import com.rzrtc.log.utils.UrlEncoderUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -83,8 +83,8 @@ public class RequestInterceptor implements Interceptor {
     }
 
 
-    public RequestInterceptor(DuBIns duBLogInstance) {
-        mPrinter = new HttpPrinter(duBLogInstance);
+    public RequestInterceptor(DuBIns duBIns) {
+        mPrinter = new HttpPrinter(duBIns);
     }
 
     @Override

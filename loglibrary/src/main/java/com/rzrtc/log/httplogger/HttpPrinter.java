@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.rzrtc.log.BuildConfig;
-import com.rzrtc.log.utils.CharacterHandler;
 import com.rzrtc.log.DuBIns;
+import com.rzrtc.log.utils.CharacterHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,8 +42,8 @@ public class HttpPrinter {
      */
     private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss.SSS", Locale.US);
 
-    public HttpPrinter(DuBIns duBLogInstance) {
-        this.duBLogInstance = duBLogInstance;
+    public HttpPrinter(DuBIns duBIns) {
+        this.duBLogInstance = duBIns;
     }
 
 

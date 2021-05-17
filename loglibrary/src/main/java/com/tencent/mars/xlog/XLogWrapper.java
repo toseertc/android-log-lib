@@ -1,13 +1,13 @@
 package com.tencent.mars.xlog;
 
 import android.content.Context;
-import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
@@ -96,19 +96,12 @@ public class XLogWrapper {
         }
     }
 
-    public static void appenderFlush() {
-        if (logImp != null) {
-            logImp.appenderFlush(0, false);
-            for (Map.Entry<String, LogInstance> entry : sLogInstanceMap.entrySet()) {
-                entry.getValue().appenderFlush();
-            }
-        }
-    }
-
-    public static void appenderFlushSync(boolean isSync) {
+    public static void appenderFlush(boolean isSync) {
         if (logImp != null) {
             logImp.appenderFlush(0, isSync);
-
+            for (Map.Entry<String, LogInstance> entry : sLogInstanceMap.entrySet()) {
+                entry.getValue().appenderFlush(isSync);
+            }
         }
     }
 
@@ -121,10 +114,10 @@ public class XLogWrapper {
 
     public static void setLevel(final int level, final boolean jni) {
         XLogWrapper.level = level;
-        android.util.Log.w(TAG, "new log level: " + level);
+        Log.w(TAG, "new log level: " + level);
 
         if (jni) {
-            android.util.Log.e(TAG, "no jni log level support");
+            Log.e(TAG, "no jni log level support");
         }
     }
 
@@ -313,7 +306,7 @@ public class XLogWrapper {
             if (log == null) {
                 log = "";
             }
-            log += "  " + android.util.Log.getStackTraceString(tr);
+            log += "  " + Log.getStackTraceString(tr);
             logImp.logE(0, tag, "", "", 0, Process.myPid(), Thread.currentThread().getId(), Looper.getMainLooper().getThread().getId(), log);
         }
     }
@@ -459,21 +452,15 @@ public class XLogWrapper {
                 if (log == null) {
                     log = "";
                 }
-                log += "  " + android.util.Log.getStackTraceString(tr);
+                log += "  " + Log.getStackTraceString(tr);
                 logImp.logE(mLogInstancePtr, tag, "", "", Process.myTid(), Process.myPid(), Thread.currentThread().getId(), Looper.getMainLooper().getThread().getId(), log);
             }
         }
 
 
-        public void appenderFlush() {
+        public void appenderFlush(boolean isSync) {
             if (logImp != null && mLogInstancePtr != -1) {
-                logImp.appenderFlush(mLogInstancePtr, false);
-            }
-        }
-
-        public void appenderFlushSync() {
-            if (logImp != null && mLogInstancePtr != -1) {
-                logImp.appenderFlush(mLogInstancePtr, true);
+                logImp.appenderFlush(mLogInstancePtr, isSync);
             }
         }
 

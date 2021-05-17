@@ -2,6 +2,7 @@ package com.rzrtc.log
 
 import androidx.annotation.NonNull
 import com.rzrtc.log.interfaces.DuBLogInterface
+import com.rzrtc.log.interfaces.UpLoadStrategy
 
 abstract class DuBIns {
 
@@ -58,16 +59,16 @@ abstract class DuBIns {
         duBLogImp?.a(tag, content)
     }
 
-    fun appenderFlush() {
-        duBLogImp?.appenderFlush()
+    fun appenderFlush(isSync :Boolean) {
+        duBLogImp?.appenderFlush(isSync)
     }
 
     fun appenderClose() {
         duBLogImp?.appenderClose()
     }
 
-    fun uploadLog() {
-        duBLogImp?.uploadLog()
+    fun uploadLog(logDays: Int, upLoadStrategy: UpLoadStrategy) {
+        duBLogImp?.uploadLog(logDays,upLoadStrategy)
     }
 
 }

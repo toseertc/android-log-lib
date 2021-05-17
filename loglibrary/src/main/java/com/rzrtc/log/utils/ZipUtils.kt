@@ -23,6 +23,7 @@ object ZipUtils {
         if (srcFiles == null || zipFile == null) return false
         var zos: ZipOutputStream? = null
         return try {
+
             zos = ZipOutputStream(FileOutputStream(zipFile))
             for (srcFile in srcFiles) {
                 if (!zipFile(srcFile, "", zos, comment)) return false
@@ -56,20 +57,20 @@ object ZipUtils {
                 }
             }
         } else {
-            var `is`: InputStream? = null
+            var inputStream: InputStream? = null
             try {
-                `is` = BufferedInputStream(FileInputStream(srcFile))
+                inputStream = BufferedInputStream(FileInputStream(srcFile))
                 val entry = ZipEntry(rootPath)
                 entry.comment = comment
                 zos.putNextEntry(entry)
                 val buffer = ByteArray(BUFFER_LEN)
                 var len: Int
-                while (`is`.read(buffer, 0, BUFFER_LEN).also { len = it } != -1) {
+                while (inputStream.read(buffer, 0, BUFFER_LEN).also { len = it } != -1) {
                     zos.write(buffer, 0, len)
                 }
                 zos.closeEntry()
             } finally {
-                `is`?.close()
+                inputStream?.close()
             }
         }
         return true
