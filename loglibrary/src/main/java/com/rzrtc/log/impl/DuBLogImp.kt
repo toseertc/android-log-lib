@@ -150,7 +150,7 @@ class DuBLogImp(private val duBLogConfig: DuBLogConfig) : DuBLogInterface {
         val xLogPath = getLogPath() ?: return
         var logDaysTemp = logDays
         //2进行压缩
-        e("lzj", "xLogPath!! $xLogPath")
+        i("xLogPath!! $xLogPath")
         //获取今天日期
         val today = SimpleDateFormat("yyyyMMdd").format(Date())
         //定义日期集合

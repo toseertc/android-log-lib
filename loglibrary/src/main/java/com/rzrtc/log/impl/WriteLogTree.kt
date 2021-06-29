@@ -31,7 +31,7 @@ class WriteLogTree(duBLogConfig: DuBLogConfig) : Timber.DebugTree() {
             XLogWrapper.setLogImp(xlog)
         }
         XLogWrapper.setConsoleLogOpen(false)
-        XLogWrapper.openLogInstance(Xlog.LEVEL_INFO, Xlog.AppednerModeAsync, duBlogConfig.getCachePath(), duBlogConfig.logPath, duBlogConfig.namePreFix, duBlogConfig.getCacheDays());
+        XLogWrapper.openLogInstance(duBlogConfig.writeLogLevel.value, Xlog.AppednerModeAsync, duBlogConfig.getCachePath(), duBlogConfig.logPath, duBlogConfig.namePreFix, duBlogConfig.getCacheDays());
         XLogWrapper.getLogInstance(duBlogConfig.namePreFix).setMaxFileSize(duBlogConfig.maxFileSize)
     }
 

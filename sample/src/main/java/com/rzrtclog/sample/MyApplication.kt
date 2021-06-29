@@ -12,6 +12,7 @@ class MyApplication:Application() {
             setMaxFileSize(1 * 1024 * 1024)  //1M
             setNamePreFix("myLog")
             setDebugMode(BuildConfig.DEBUG)
+            setWriteLogLevel(DuBLogConfig.WritLevel.LEVEL_ERROR)
         })
     }
 }

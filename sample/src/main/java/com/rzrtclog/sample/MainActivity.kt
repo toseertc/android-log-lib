@@ -19,8 +19,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         lifecycleScope.launchWhenResumed {
             while(isActive){
-                DuBLog.i("这是一条测试log")
+                DuBLog.v("vvvvvv这是一条测试log")
+                DuBLog.d("dddddd这是一条测试log")
+                DuBLog.w("wwwwww这是一条测试log")
+                DuBLog.e("eeeeee这是一条测试log")
                 delay(1500)
+                DuBLog.appenderFlush(false)
             }
         }
     }

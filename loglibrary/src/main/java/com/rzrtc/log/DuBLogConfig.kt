@@ -2,13 +2,16 @@ package com.rzrtc.log
 
 import android.content.Context
 
-class DuBLogConfig (val context: Context){
+class DuBLogConfig(val context: Context) {
     var logPath: String = "${context.getExternalFilesDir("log")}/DubLogs"
+
     //cachePath这个参数必传，而且要data下的私有文件目录，例如 /data/data/packagename/files/xlog， mmap文件会放在这个目录，如果传空串，可能会发生 SIGBUS 的crash。
-    private var cachePath =  "${context.cacheDir}/xLog"  //官方建议给应用的 /data/data/packname/files/log 目录。否则有可能被日志的自动清理功能清理掉
+    private var cachePath =
+        "${context.cacheDir}/xLog"  //官方建议给应用的 /data/data/packname/files/log 目录。否则有可能被日志的自动清理功能清理掉
     var maxFileSize: Long = 0L
     var namePreFix: String = "DubLog"
-    var debugMode:Boolean = true
+    var debugMode: Boolean = true
+    var writeLogLevel = WritLevel.LEVEL_INFO
     private var cacheDays: Int = 0 //cacheDays 的意思是 在多少天以后 从缓存目录移到日志目录
 
 
@@ -17,15 +20,21 @@ class DuBLogConfig (val context: Context){
         return this
     }
 
-    fun getCachePath():String{
+    fun getCachePath(): String {
         return cachePath
     }
 
-    fun getCacheDays():Int{
+    fun getCacheDays(): Int {
         return cacheDays
     }
+
     fun setLogPath(logPath: String): DuBLogConfig {
         this.logPath = logPath
+        return this
+    }
+
+    fun setWriteLogLevel(writeLogLevel: WritLevel): DuBLogConfig {
+        this.writeLogLevel = writeLogLevel
         return this
     }
 
@@ -43,4 +52,14 @@ class DuBLogConfig (val context: Context){
         func()
         return this
     }
+
+
+    enum class WritLevel(val value: Int) {
+        LEVEL_VERBOSE(0),
+        LEVEL_DEBUG(1),
+        LEVEL_INFO(2),
+        LEVEL_WARNING(3),
+        LEVEL_ERROR(4)
+    }
+
 }
