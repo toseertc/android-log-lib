@@ -19,7 +19,7 @@ import java.util.Map;
  * @author zhaoyuan zhangweizang
  */
 public class XLogWrapper {
-    private static final String TAG = "com.com.tencent.mars.xlog.log";
+    private static final String TAG = "mars.xlog";
 
     public static final int LEVEL_VERBOSE = 0;
     public static final int LEVEL_DEBUG = 1;
@@ -245,14 +245,14 @@ public class XLogWrapper {
 
     public static void f(String tag, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_FATAL) {
-            final String log = obj == null ? format : String.format(format, obj);
+            final String log = obj.length == 0 ? format : String.format(format, obj);
             logImp.logF(0, tag, "", "", 0, Process.myPid(), Thread.currentThread().getId(), Looper.getMainLooper().getThread().getId(), log);
         }
     }
 
     public static void e(String tag, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_ERROR) {
-            String log = obj == null ? format : String.format(format, obj);
+            String log =obj.length == 0 ? format : String.format(format, obj);
             if (log == null) {
                 log = "";
             }
@@ -262,7 +262,7 @@ public class XLogWrapper {
 
     public static void w(String tag, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_WARNING) {
-            String log = obj == null ? format : String.format(format, obj);
+            String log = obj.length == 0 ? format : String.format(format, obj);
             if (log == null) {
                 log = "";
             }
@@ -272,7 +272,7 @@ public class XLogWrapper {
 
     public static void i(String tag, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_INFO) {
-            String log = obj == null ? format : String.format(format, obj);
+            String log = obj.length == 0 ? format : String.format(format, obj);
             if (log == null) {
                 log = "";
             }
@@ -282,7 +282,7 @@ public class XLogWrapper {
 
     public static void d(String tag, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_DEBUG) {
-            String log = obj == null ? format : String.format(format, obj);
+            String log = obj.length == 0 ? format : String.format(format, obj);
             if (log == null) {
                 log = "";
             }
@@ -292,7 +292,7 @@ public class XLogWrapper {
 
     public static void v(String tag, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_VERBOSE) {
-            String log = obj == null ? format : String.format(format, obj);
+            String log = obj.length == 0 ? format : String.format(format, obj);
             if (log == null) {
                 log = "";
             }
@@ -302,7 +302,7 @@ public class XLogWrapper {
 
     public static void printErrStackTrace(String tag, Throwable tr, final String format, final Object... obj) {
         if (logImp != null && logImp.getLogLevel(0) <= LEVEL_ERROR) {
-            String log = obj == null ? format : String.format(format, obj);
+            String log = obj.length == 0 ? format : String.format(format, obj);
             if (log == null) {
                 log = "";
             }
@@ -390,14 +390,14 @@ public class XLogWrapper {
 
         public void f(String tag, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_FATAL && mLogInstancePtr != -1) {
-                final String log = obj == null ? format : String.format(format, obj);
+                final String log = obj.length == 0 ? format : String.format(format, obj);
                 logImp.logF(mLogInstancePtr, tag, "", "", Process.myTid(), Process.myPid(), Thread.currentThread().getId(), Looper.getMainLooper().getThread().getId(), log);
             }
         }
 
         public void e(String tag, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_ERROR && mLogInstancePtr != -1) {
-                String log = obj == null ? format : String.format(format, obj);
+                String log = obj.length == 0 ? format : String.format(format, obj);
                 if (log == null) {
                     log = "";
                 }
@@ -407,7 +407,7 @@ public class XLogWrapper {
 
         public void w(String tag, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_WARNING && mLogInstancePtr != -1) {
-                String log = obj == null ? format : String.format(format, obj);
+                String log = obj.length == 0 ? format : String.format(format, obj);
                 if (log == null) {
                     log = "";
                 }
@@ -417,7 +417,7 @@ public class XLogWrapper {
 
         public void i(String tag, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_INFO && mLogInstancePtr != -1) {
-                String log = obj == null ? format : String.format(format, obj);
+                String log = obj.length == 0 ? format : String.format(format, obj);
                 if (log == null) {
                     log = "";
                 }
@@ -427,7 +427,7 @@ public class XLogWrapper {
 
         public void d(String tag, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_DEBUG && mLogInstancePtr != -1) {
-                String log = obj == null ? format : String.format(format, obj);
+                String log = obj.length == 0 ? format : String.format(format, obj);
                 if (log == null) {
                     log = "";
                 }
@@ -437,7 +437,7 @@ public class XLogWrapper {
 
         public void v(String tag, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_VERBOSE && mLogInstancePtr != -1) {
-                String log = obj == null ? format : String.format(format, obj);
+                String log = obj.length == 0 ? format : String.format(format, obj);
                 if (log == null) {
                     log = "";
                 }
@@ -448,7 +448,7 @@ public class XLogWrapper {
 
         public void printErrStackTrace(String tag, Throwable tr, final String format, final Object... obj) {
             if (logImp != null && getLogLevel() <= LEVEL_ERROR && mLogInstancePtr != -1) {
-                String log = obj == null ? format : String.format(format, obj);
+                String log = obj.length == 0 ? format : String.format(format, obj);
                 if (log == null) {
                     log = "";
                 }

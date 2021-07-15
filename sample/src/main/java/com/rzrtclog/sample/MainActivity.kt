@@ -20,9 +20,14 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenResumed {
             while(isActive){
                 DuBLog.v("vvvvvv这是一条测试log")
-                DuBLog.d("dddddd这是一条测试log")
-                DuBLog.w("wwwwww这是一条测试log")
-                DuBLog.e("eeeeee这是一条测试log")
+                DuBLog.d("dddddd这是一条测试\nasdasdasdlog")
+                DuBLog.w("wwwwww这是一条测试\r" +
+                        "asdasdasdlog")
+                DuBLog.e("eeeeee这是一条\n" +
+                        "asdasdasdlog测试log\n" +
+                        "asdasdasdlog\n" +
+                        "asdasdasdlog\n" +
+                        "asdasdasdlog")
                 delay(1500)
                 DuBLog.appenderFlush(false)
             }
