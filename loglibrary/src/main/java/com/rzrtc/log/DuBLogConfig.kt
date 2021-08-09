@@ -14,6 +14,9 @@ class DuBLogConfig(val context: Context) {
     var writeLogLevel = WritLevel.LEVEL_INFO
     private var cacheDays: Int = 0 //cacheDays 的意思是 在多少天以后 从缓存目录移到日志目录
 
+    //每次启动时会删除过期文件，只保留十天内的日志文件( c文件中定义了  long max_alive_time_ = 10 * 24 * 60 * 60;    // 10 days in second )，所以给 Xlog 的目录请使用单独目录，防止误删其他文件。目前不会根据文件大小进行清理。
+    //具体设置在xlog.setMaxAliveTime
+
 
     fun setDebugMode(debugMode: Boolean): DuBLogConfig {
         this.debugMode = debugMode
