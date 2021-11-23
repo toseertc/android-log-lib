@@ -177,9 +177,11 @@ class DuBLogImp(private val duBLogConfig: DuBLogConfig) : DuBLogInterface {
 
             if (flatMap.isNotEmpty()) {
                 ZipUtils.zipFiles(flatMap, zipFile, "${duBLogConfig.namePreFix} - $today logFiles")
-                upLoadStrategy.upLoadLogZipFiles(zipFile)
+
             }
         }
+
+        upLoadStrategy.upLoadLogZipFiles(zipFile)
     }
 
     override fun getLogPath(): String? {
