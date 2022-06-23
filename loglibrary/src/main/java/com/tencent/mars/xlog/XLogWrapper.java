@@ -467,10 +467,10 @@ public class XLogWrapper {
         }
 
         public int getLogLevel() {
-//            if (logImp != null && mLogInstancePtr != -1) {
-//                return logImp.getLogLevel(mLogInstancePtr);
-//            }
-            return level;
+            if (logImp != null && mLogInstancePtr != -1) {
+                return logImp.getLogLevel(mLogInstancePtr);
+            }
+            return LEVEL_NONE;
         }
 
         public void setConsoleLogOpen(boolean isOpen) {

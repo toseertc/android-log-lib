@@ -59,7 +59,7 @@ dependencies {
 
 def group_jar = 'com.github.toseertc'
 //def version_jar =  '1.5.3' //release仓库 使用
-def version_jar = '1.3.0-SNAPSHOT' //推送开发库使用
+def version_jar = '1.3.1-SNAPSHOT' //推送开发库使用
 def artifactId_jar = 'android-log'
 
 apply plugin: 'maven'
