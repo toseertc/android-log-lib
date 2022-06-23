@@ -15,11 +15,10 @@ package com.rzrtclog.sample.httplogger;/*
  */
 
 
-import com.rzrtc.log.DuBIns;
-import com.rzrtc.log.utils.CharacterHandler;
-import com.rzrtc.log.utils.HttpZipHelper;
-import com.rzrtc.log.utils.UrlEncoderUtils;
-import com.rzrtclog.sample.httplogger.HttpPrinter;
+import com.toseertc.log.ToseeIns;
+import com.toseertc.log.utils.CharacterHandler;
+import com.toseertc.log.utils.HttpZipHelper;
+import com.toseertc.log.utils.UrlEncoderUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -80,7 +79,7 @@ public class RequestInterceptor implements Interceptor {
     }
 
 
-    public RequestInterceptor(DuBIns duBIns) {
+    public RequestInterceptor(ToseeIns duBIns) {
         mPrinter = new HttpPrinter(duBIns);
     }
 

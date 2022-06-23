@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
-import com.rzrtc.log.DuBLog
-import com.rzrtc.log.interfaces.UpLoadStrategy
-import com.rzrtc.log.utils.ZipUtils
+import com.toseertc.log.ToseeLogDefault
+import com.toseertc.log.interfaces.UpLoadStrategy
+import com.toseertc.log.utils.ZipUtils
 import com.rzrtclog.sample.httplogger.RequestInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,25 +27,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         lifecycleScope.launchWhenResumed {
-//            while(isActive){
-//                DuBLog.v("vvvvvv这是一条测试log")
-//                DuBLog.d("dddddd这是一条测试\nasdasdasdlog")
-//                DuBLog.w("wwwwww这是一条测试\r" +
-//                        "asdasdasdlog")
-//                DuBLog.e("eeeeee这是一条\n" +
-//                        "asdasdasdlog测试log\n" +
-//                        "asdasdasdlog\n" +
-//                        "asdasdasdlog\n" +
-//                        "asdasdasdlog")
-//                delay(1500)
-//                DuBLog.appenderFlush(false)
-//            }
+            while(isActive){
+                ToseeLogDefault.v("vvvvvv这是一条测试log")
+                ToseeLogDefault.d("dddddd这是一条测试\nasdasdasdlog")
+                ToseeLogDefault.w("wwwwww这是一条测试\r" +
+                        "asdasdasdlog")
+                ToseeLogDefault.e("eeeeee这是一条\n" +
+                        "asdasdasdlog测试log\n" +
+                        "asdasdasdlog\n" +
+                        "asdasdasdlog\n" +
+                        "asdasdasdlog")
+                delay(1500)
+                ToseeLogDefault.appenderFlush(false)
+            }
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
             delay(5000)
             //5s后开始上传
-            DuBLog.uploadLog(2,object :UpLoadStrategy{
+            ToseeLogDefault.uploadLog(2,object :UpLoadStrategy{
                 override fun upLoadLogZipFiles(zipFile: File) {
                     val files = mutableListOf<File>()
                     val rootZipFile = File("${zipFile.parent}/all-XXXX.zip")

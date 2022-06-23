@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 1
+        versionCode 2
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -55,4 +55,32 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+}
+
+def group_jar = 'com.github.toseertc'
+//def version_jar =  '1.5.3' //release仓库 使用
+def version_jar = '1.3.0-SNAPSHOT' //推送开发库使用
+def artifactId_jar = 'android-log'
+
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: 'https://packages.aliyun.com/maven/repository/2165194-release-fjDUQT/') {
+                authentication(
+                        userName: '61b6beeed6190210d87450f0',
+                        password: 'blwnkGQJz-JL'
+                )
+            }
+            snapshotRepository(url: 'https://packages.aliyun.com/maven/repository/2165194-snapshot-vBNXKq/') {
+                authentication(
+                        userName: '61b6beeed6190210d87450f0',
+                        password: 'blwnkGQJz-JL'
+                )
+            }
+            pom.version = "${version_jar}"
+            pom.artifactId = "${artifactId_jar}"
+            pom.groupId = "${group_jar}"
+        }
+    }
 }

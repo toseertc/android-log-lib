@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.rzrtc.log.DuBIns;
-import com.rzrtc.log.utils.CharacterHandler;
+import com.toseertc.log.ToseeIns;
+import com.toseertc.log.utils.CharacterHandler;
 import com.rzrtclog.sample.BuildConfig;
 
 import org.json.JSONException;
@@ -21,7 +21,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 
 public class HttpPrinter {
-    private DuBIns duBLogInstance;
+    private ToseeIns duBLogInstance;
 
     /***************************
      * 以下代码用于存储http请求
@@ -42,7 +42,7 @@ public class HttpPrinter {
      */
     private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss.SSS", Locale.US);
 
-    public HttpPrinter(DuBIns duBIns) {
+    public HttpPrinter(ToseeIns duBIns) {
         this.duBLogInstance = duBIns;
     }
 
