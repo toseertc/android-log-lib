@@ -380,8 +380,10 @@ public class XLogWrapper {
         private long mLogInstancePtr = -1;
 
         private String mPrefix = null;
+        private int level = LEVEL_INFO;
 
         private LogInstance(int level, int mode, String cacheDir, String logDir, String nameprefix, int cacheDays) {
+            this.level = level;
             if (logImp != null) {
                 mLogInstancePtr = logImp.openLogInstance(level, mode, cacheDir, logDir, nameprefix, cacheDays);
                 mPrefix = nameprefix;
@@ -465,10 +467,10 @@ public class XLogWrapper {
         }
 
         public int getLogLevel() {
-            if (logImp != null && mLogInstancePtr != -1) {
-                return logImp.getLogLevel(mLogInstancePtr);
-            }
-            return LEVEL_NONE;
+//            if (logImp != null && mLogInstancePtr != -1) {
+//                return logImp.getLogLevel(mLogInstancePtr);
+//            }
+            return level;
         }
 
         public void setConsoleLogOpen(boolean isOpen) {
